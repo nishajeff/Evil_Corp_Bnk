@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Scanner;
-//
+
 public class EvilCorpBankingPlusApp {
 public static HashMap<Integer,Customer>myMap = null;	
 	public static void main(String[] args) throws IOException {	
@@ -71,13 +71,13 @@ public static HashMap<Integer,Customer>myMap = null;
 				}
 				acct_num=Integer.parseInt(actNum);				
 			}
-			System.out.println("Enter a transaction type (Check-C, Debit card-D, Deposit-DP or Withdrawal-W) or -1 to finish :");
+			System.out.println("Enter a transaction type (Check-C, Debit card-D, Deposit-DP or Withdrawal-W or CloseAccount-CL) or -1 to finish :");
 			String type=sc.nextLine();
 			while(!(Validator.ValidateType(type))){				
 				System.out.println("Invalid Entry.Enter a Type");				
 				type=sc.nextLine();				 
 			}
-			while(!(type.equals("-1"))){
+			while((!(type.equals("-1")) && ( !(type.equalsIgnoreCase("CL"))))){
 				System.out.println("Enter account num:");
 				actNum=sc.nextLine();
 				while(!(Validator.ValidateAccountNumber(actNum))){				
@@ -111,18 +111,40 @@ public static HashMap<Integer,Customer>myMap = null;
 				}
 				}
 			for(int currentKey:myMap.keySet())
-			   myMap.get(currentKey).updateBalance();
-			for(int currentKey:myMap.keySet()){
-			   System.out.println(myMap.get(currentKey));			   		   
+				   myMap.get(currentKey).updateBalance();
+				
+			if(type.equals("CL")){
+				System.out.println("Enter account num:");
+				actNum=sc.nextLine();
+				while(!(Validator.ValidateAccountNumber(actNum))){				
+					System.out.println("Invalid Entry.Enter an acct-Num");				
+					actNum=sc.nextLine();				 
+				}
+				int ac_num=Integer.parseInt(actNum);
+				if(myMap.containsKey(ac_num)){
+					if(myMap.get(ac_num).getBalance()==0){
+						myMap.remove(ac_num);
+						System.out.println("Account Closed.Thank you.");
+					}
+					else if((myMap.get(ac_num).getBalance()<0))
+							System.out.println("Cannot close account due to non-zero balance.Please pay your dues to the bank and try again!");
+					else 
+						System.out.println("Cannot close account due to non-zero balance.Please withdraw your balance and try again!");
+				}
+				else
+					System.out.println("Cannot close a non existing account.");
+					
 			}
+			
+			
+			for(int currentKey:myMap.keySet())
+			   System.out.println(myMap.get(currentKey));			
 			oos.writeObject(myMap);					  
 			}catch(Exception e){
 				e.printStackTrace();
 			}finally{
 			sc.close();			
-			fos.close();
-			//fis.close();
-			//ois.close();
+			fos.close();			
 			oos.close();
 			}
 	}

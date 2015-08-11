@@ -75,7 +75,7 @@ public class Validator {
 		}
 	}
 	public static boolean ValidateType(String input){
-		if(input.equalsIgnoreCase("C")||input.equalsIgnoreCase("D")||input.equalsIgnoreCase("W")||input.equalsIgnoreCase("DP")||input.equalsIgnoreCase("-1"))
+		if(input.equalsIgnoreCase("C")||input.equalsIgnoreCase("D")||input.equalsIgnoreCase("W")||input.equalsIgnoreCase("DP")||input.equalsIgnoreCase("CL")||input.equalsIgnoreCase("-1"))
 			return true;
 		else
 			return false;

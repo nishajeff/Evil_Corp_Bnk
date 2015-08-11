@@ -4,7 +4,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 
-//
+
 @SuppressWarnings("serial")
 public class Customer implements Serializable {
 	private int account_num;
@@ -64,19 +64,24 @@ public class Customer implements Serializable {
 		Collections.sort(transactions);
 		for(Transaction temp:transactions){	
 			if(!(temp.getFlag())){
-				if(!(temp.getTransaction_type().equalsIgnoreCase("dp")))				
-					balance-=temp.getAmount();			
-				
-				if(balance<0 && !(temp.getTransaction_type().equalsIgnoreCase("dp")))
+				if(!(temp.getTransaction_type().equalsIgnoreCase("dp"))){				
+					balance-=temp.getAmount();	
+					temp.setFlag(true);
+				}
+				if(balance<0 && !(temp.getTransaction_type().equalsIgnoreCase("dp"))){
 					balance-=35;
-				temp.setFlag(true);
+					//temp.setFlag(true);
+				}
+				
 			}
 		}
-		for(Transaction temp:transactions){	
+		for(Transaction temp:transactions){			
 			if(!(temp.getFlag())){
-				if(temp.getTransaction_type().equalsIgnoreCase("dp"))
+				if(temp.getTransaction_type().equalsIgnoreCase("dp")){
 					balance+=temp.getAmount();
-				temp.setFlag(true);
+					temp.setFlag(true);
+				}
+				
 			}
 		}
 	}
